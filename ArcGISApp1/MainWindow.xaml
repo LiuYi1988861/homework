@@ -1,0 +1,109 @@
+﻿<Window x:Class="ArcGISApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
+        xmlns:local="clr-namespace:ArcGISApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="525" Width="790">
+    <Window.Resources>
+        <local:MapViewModel x:Key="MapViewModel"/>
+    </Window.Resources>
+    <Grid>
+        <esri:SceneView x:Name="MySceneView"
+                        MouseLeftButtonDown="MySceneView_MouseLeftDown"
+                        GraphicsOverlays="{Binding GraphicsOverlays, Source={StaticResource MapViewModel}}" 
+                        Scene="{Binding Scene, Source={StaticResource MapViewModel}}">
+        </esri:SceneView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border x:Name="BorderContent" 
+            Background="Black" BorderBrush="Black" BorderThickness="1"
+				HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Grid.Row="1"
+				>
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <WrapPanel>
+                    <TextBlock Foreground="White"
+                            FontWeight="Bold" 
+                       HorizontalAlignment="Right" VerticalAlignment="Center"
+                       Text="Measure Shape:"/>
+                    <Button x:Name="EditButton"  ToolTip="Enable/Disable edit mode"
+                         Background="White"
+                    Margin="5"
+                    Width="50" Height="25"
+                    HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Button.Content>
+                            <Image Source="Resource\edit.png" Width="45" Height="20"/>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="LineButton" 
+                         Background="White" IsEnabled="False" ToolTip="Measure line length"
+                    Margin="5"
+                    Width="50" Height="25"
+                    HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Button.Content>
+                            <Image Source="Resource\line.png" Width="45" Height="20"/>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="AreaButton" 
+                         Background="White" IsEnabled="False" ToolTip="Measure polygon size"
+                    Margin="5"
+                    Width="50" Height="25"
+                    HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Button.Content>
+                            <Image Source="Resource\polygon.png" Width="45" Height="20"/>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="ClearButton"    
+                          Background="White" IsEnabled="False" ToolTip="Clear all results"
+                    Margin="5"
+                    Width="50" Height="25"
+                    HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Button.Content>
+                            <Image Source="Resource\clear.png" Width="45" Height="20"/>
+                        </Button.Content>
+                    </Button>
+                </WrapPanel>
+            </Border>
+            <Border x:Name="BorderContentText" 
+            Background="Black" BorderBrush="Black" BorderThickness="1"
+				HorizontalAlignment="Left" VerticalAlignment="Top" Height="80" Width="200" Grid.Row="2" 
+                Visibility="{Binding LoadCloseVisibility,Source={StaticResource MapViewModel}}"
+				>
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock Foreground="White"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center"  FontWeight="Bold" 
+                       Text="Measure Reuslt:"/>
+                        <Button x:Name="CloseButton"
+                                Background="Transparent"
+                                Margin="80,0,0,0" Width="20" Height="20"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Button.Content>
+                                <Image Source="Resource\close.png" Width="15" Height="15"/>
+                            </Button.Content>
+                        </Button>
+                    </WrapPanel>
+                    <TextBlock x:Name="LineText" 
+                    Foreground="White"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+					Text="{Binding LineTextBlock,Source={StaticResource MapViewModel}}" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="AreaText"
+                    Foreground="White"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+					Text="{Binding AreaTextBlock,Source={StaticResource MapViewModel}}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
