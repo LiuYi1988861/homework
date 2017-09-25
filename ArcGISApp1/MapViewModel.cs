@@ -28,13 +28,15 @@ namespace ArcGISApp1
             _scene = new Scene(Basemap.CreateImagery());
             _grapchicsOverlays = new GraphicsOverlayCollection();
             _tempOverlay = new GraphicsOverlay();
-            graphicsOverlay = new GraphicsOverlay();
+            lineOverlay = new GraphicsOverlay();
+            areaOverlay = new GraphicsOverlay();
             var elevationSource = new ArcGISTiledElevationSource(new System.Uri("http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"));
             var sceneSurface = new Surface();
             sceneSurface.ElevationSources.Add(elevationSource);
             _scene.BaseSurface = sceneSurface;
             _grapchicsOverlays.Add(_tempOverlay);
-            _grapchicsOverlays.Add(graphicsOverlay);
+            _grapchicsOverlays.Add(lineOverlay);
+            _grapchicsOverlays.Add(areaOverlay);
             _lineTextBlock = "Line Length: 0.00 meters";
             _areaTextBlock = "Area Size: 0.00 square meters";
             _loadCloseVisibility = Visibility.Hidden;
@@ -43,7 +45,8 @@ namespace ArcGISApp1
         private String _lineTextBlock;
         private String _areaTextBlock;
         private GraphicsOverlayCollection _grapchicsOverlays;
-        private GraphicsOverlay graphicsOverlay;
+        private GraphicsOverlay lineOverlay;
+        private GraphicsOverlay areaOverlay;
         private GraphicsOverlay _tempOverlay;
         private Visibility _loadCloseVisibility;
       
@@ -54,7 +57,7 @@ namespace ArcGISApp1
             if (type == "line")
             {
                 _tempOverlay.Graphics.Clear();
-                graphicsOverlay.Graphics.Add(boatTripGraphic);
+                lineOverlay.Graphics.Add(boatTripGraphic);
             }
             else { 
                 _tempOverlay.Graphics.Add(boatTripGraphic);
@@ -67,13 +70,25 @@ namespace ArcGISApp1
             var lineSymbol = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, Color.FromArgb(255, 255, 0, 0), 1.0);
             var fillSymbol = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, Color.FromArgb(155, 255, 255, 0), lineSymbol);
             var boatTripGraphic = new Graphic(temp, fillSymbol);
-            graphicsOverlay.Graphics.Add(boatTripGraphic);
+            areaOverlay.Graphics.Add(boatTripGraphic);
+        }
+        public void Clear(string type)
+        { 
+            if (type == "line")
+            {
+                lineOverlay.Graphics.Clear();
+            }
+            else if (type == "area")
+            {
+                areaOverlay.Graphics.Clear();
+            }
         }
 
-        public void Clear()
+        public void ClearAll()
         {
             _tempOverlay.Graphics.Clear();
-            graphicsOverlay.Graphics.Clear();
+            lineOverlay.Graphics.Clear();
+            areaOverlay.Graphics.Clear();
         }
         /// <summary>
         /// Gets or sets the map

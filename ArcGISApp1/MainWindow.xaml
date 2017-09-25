@@ -13,6 +13,7 @@
     <Grid>
         <esri:SceneView x:Name="MySceneView"
                         MouseLeftButtonDown="MySceneView_MouseLeftDown"
+                        MouseDoubleClick="MySceneView_MouseDoubleClick"
                         GraphicsOverlays="{Binding GraphicsOverlays, Source={StaticResource MapViewModel}}" 
                         Scene="{Binding Scene, Source={StaticResource MapViewModel}}">
         </esri:SceneView>
